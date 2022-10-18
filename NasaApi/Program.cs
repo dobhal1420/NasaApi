@@ -11,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<INasaImageRetriever, NasaImageRetriever>();
 builder.Services.AddHttpClient<NasaClient>();
+builder.Services.AddMemoryCache();
 
 
 var app = builder.Build();

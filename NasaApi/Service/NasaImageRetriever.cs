@@ -1,4 +1,5 @@
-﻿using NasaApi.Client;
+﻿using Microsoft.Extensions.Caching.Memory;
+using NasaApi.Client;
 using NasaApi.Domain;
 using System.Collections.Specialized;
 
@@ -16,8 +17,8 @@ namespace NasaApi.Service
         /// <param name="httpClient"></param>
         public NasaImageRetriever(ILogger<NasaImageRetriever> logger, NasaClient nasaClient)
         {
-            _logger = logger;
-            _nasaClient = nasaClient;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _nasaClient = nasaClient ?? throw new ArgumentNullException(nameof(nasaClient));
         }
 
         public async Task<List<NasaLineItem>?> FetchAllData(NasaRequestParameter parameter)

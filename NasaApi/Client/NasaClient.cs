@@ -12,16 +12,16 @@ namespace NasaApi.Client
         private readonly string baseUrl;
 
         /// <summary>
-        /// 
+        /// Nasa client.
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="configuration"></param>
         /// <param name="httpClient"></param>
         public NasaClient(ILogger<NasaImageRetriever> logger, IConfiguration configuration, HttpClient httpClient)
         {
-            _logger = logger;
-            _configuration = configuration;
-            _httpClient = httpClient;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             
             baseUrl = _configuration["ApiConfiguration:BaseUrl"];
             if (baseUrl == null)
