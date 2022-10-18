@@ -20,7 +20,7 @@ namespace NasaApi.Service
             _nasaClient = nasaClient;
         }
 
-        public async Task<NasaDataModel?> FetchAllData() {
+        public async Task<List<NasaLineItem>?> FetchAllData() {
 
             var query = "search?q=mars";
             _logger.LogDebug("NasaRetriever querying ", query);

@@ -23,7 +23,7 @@ namespace NasaApi.Client
             _httpClient.BaseAddress = new Uri(_configuration["ApiConfiguration:BaseUrl"]);
         }
 
-        public async Task<NasaDataModel?> GetAsync(string queryString)
+        public async Task<List<NasaLineItem>?> GetAsync(string queryString)
         {
 
             queryString = "search?q=mars";
@@ -31,7 +31,7 @@ namespace NasaApi.Client
 
             _logger.LogDebug("Nasa Client Response", nasaResponse);
 
-            return nasaResponse;
+            return nasaResponse?.collection?.items;
         }
     }
 }

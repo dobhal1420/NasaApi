@@ -4,6 +4,6 @@ namespace NasaApi.Service
 {
     public interface INasaImageRetriever
     {
-        Task<NasaDataModel?> FetchAllData();
+        Task<List<NasaLineItem>?> FetchAllData();
     }
 }

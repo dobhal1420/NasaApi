@@ -4,7 +4,7 @@
     {
         public string? version { get; set; }
         public string? href { get; set; }
-        public List<Item>? items { get; set; }
+        public List<NasaLineItem>? items { get; set; }
         public Metadata? metadata { get; set; }
         public List<Link>? links { get; set; }
     }
@@ -25,7 +25,7 @@
         public string? location { get; set; }
     }
 
-    public class Item
+    public class NasaLineItem
     {
         public string? href { get; set; }
         public List<Datum>? data { get; set; }

@@ -20,16 +20,24 @@ namespace NasaApi.Controllers
         }
         // GET: api/<NasaApiController>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NasaDataModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NasaLineItem))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Get()
         {
-            var response = await _imageRetriever.FetchAllData();
-            if (response == null)
+            try
             {
-                return NotFound();
+                var response = await _imageRetriever.FetchAllData();
+                if (response == null)
+                {
+                    return NotFound();
+                }
+                return Ok(response!);
             }
-            return Ok(response!); ;
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, ex.StackTrace);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET api/<NasaApiController>/5
