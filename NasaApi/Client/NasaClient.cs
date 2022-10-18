@@ -1,4 +1,5 @@
-﻿using NasaApi.Domain;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using NasaApi.Domain;
 using NasaApi.Service;
 
 namespace NasaApi.Client
@@ -8,6 +9,7 @@ namespace NasaApi.Client
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
+        private readonly string baseUrl;
 
         /// <summary>
         /// 
@@ -20,18 +22,24 @@ namespace NasaApi.Client
             _logger = logger;
             _configuration = configuration;
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri(_configuration["ApiConfiguration:BaseUrl"]);
+            
+            baseUrl = _configuration["ApiConfiguration:BaseUrl"];
+            if (baseUrl == null)
+            {
+                throw new ArgumentNullException("ApiConfiguration:BaseUrl");
+            }
+            _httpClient.BaseAddress = new Uri(baseUrl);
         }
 
-        public async Task<List<NasaLineItem>?> GetAsync(string queryString)
+        public async Task<List<NasaLineItem>?> GetAsync(Dictionary<string,string?> queryParameters)
         {
+            var queryString = QueryHelpers.AddQueryString(baseUrl, queryParameters);
 
-            queryString = "search?q=mars";
             var nasaResponse = await _httpClient.GetFromJsonAsync<NasaDataModel>(queryString);
 
             _logger.LogDebug("Nasa Client Response", nasaResponse);
 
-            return nasaResponse?.collection?.items;
+            return nasaResponse?.Collection?.Items;
         }
     }
 }

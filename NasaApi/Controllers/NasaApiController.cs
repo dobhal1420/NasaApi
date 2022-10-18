@@ -22,11 +22,11 @@ namespace NasaApi.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NasaLineItem))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromQuery] NasaRequestParameter parameter)
         {
             try
             {
-                var response = await _imageRetriever.FetchAllData();
+                var response = await _imageRetriever.FetchAllData(parameter);
                 if (response == null)
                 {
                     return NotFound();
@@ -38,13 +38,6 @@ namespace NasaApi.Controllers
                 _logger.Log(LogLevel.Error, ex.StackTrace);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-        }
-
-        // GET api/<NasaApiController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using Microsoft.Net.Http.Headers;
-using NasaApi.Client;
+﻿using NasaApi.Client;
 using NasaApi.Domain;
+using System.Collections.Specialized;
 
 namespace NasaApi.Service
 {
@@ -20,15 +20,41 @@ namespace NasaApi.Service
             _nasaClient = nasaClient;
         }
 
-        public async Task<List<NasaLineItem>?> FetchAllData() {
+        public async Task<List<NasaLineItem>?> FetchAllData(NasaRequestParameter parameter)
+        {
 
-            var query = "search?q=mars";
-            _logger.LogDebug("NasaRetriever querying ", query);
-            var nasaResponse = await _nasaClient.GetAsync(query);
+            var queryParameters = GetQueryString(parameter);
 
-            
+            _logger.LogDebug("NasaRetriever querying ", queryParameters);
+            var nasaResponse = await _nasaClient.GetAsync(queryParameters);
+
+
 
             return nasaResponse;
+        }
+
+        private Dictionary<string, string?> GetQueryString(NasaRequestParameter parameter)
+        {
+            Dictionary<string, string?> queryString = new();
+
+            queryString.Add("q", parameter.SearchQuery);
+
+
+            queryString.Add("year_start", parameter.YearStart);
+
+            queryString.Add("year_end", parameter.YearEnd);
+
+            if (parameter.MediaType != null)
+            {
+                queryString.Add("media_type", parameter.MediaType.ToString());
+            }
+
+            if (parameter.Page.HasValue)
+            {
+                queryString.Add("page", parameter.Page.Value.ToString());
+            }
+
+            return queryString;
         }
     }
 }

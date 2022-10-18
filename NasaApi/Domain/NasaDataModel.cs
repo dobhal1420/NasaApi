@@ -2,52 +2,52 @@
 {
     public class Collection
     {
-        public string? version { get; set; }
-        public string? href { get; set; }
-        public List<NasaLineItem>? items { get; set; }
-        public Metadata? metadata { get; set; }
-        public List<Link>? links { get; set; }
+        public string? Version { get; set; }
+        public string? Href { get; set; }
+        public List<NasaLineItem>? Items { get; set; }
+        public Metadata? Metadata { get; set; }
+        public List<Link>? Links { get; set; }
     }
 
     public class Datum
     {
-        public string? center { get; set; }
-        public string? title { get; set; }
-        public string? nasa_id { get; set; }
-        public DateTime date_created { get; set; }
-        public List<string>? keywords { get; set; }
-        public string? media_type { get; set; }
-        public string? description_508 { get; set; }
-        public string? secondary_creator { get; set; }
-        public string? description { get; set; }
-        public string? photographer { get; set; }
-        public List<string>? album { get; set; }
-        public string? location { get; set; }
+        public string? Center { get; set; }
+        public string? Title { get; set; }
+        public string? Nasa_id { get; set; }
+        public DateTime Date_created { get; set; }
+        public List<string>? Keywords { get; set; }
+        public string? Media_type { get; set; }
+        public string? Description_508 { get; set; }
+        public string? Secondary_creator { get; set; }
+        public string? Description { get; set; }
+        public string? Photographer { get; set; }
+        public List<string>? Album { get; set; }
+        public string? Location { get; set; }
     }
 
     public class NasaLineItem
     {
-        public string? href { get; set; }
-        public List<Datum>? data { get; set; }
-        public List<Link>? links { get; set; }
+        public string? Href { get; set; }
+        public List<Datum>? Data { get; set; }
+        public List<Link>? Links { get; set; }
     }
 
     public class Link
     {
-        public string? href { get; set; }
-        public string? rel { get; set; }
-        public string? render { get; set; }
-        public string? prompt { get; set; }
+        public string? Href { get; set; }
+        public string? Rel { get; set; }
+        public string? Render { get; set; }
+        public string? Prompt { get; set; }
     }
 
     public class Metadata
     {
-        public int total_hits { get; set; }
+        public int Total_hits { get; set; }
     }
 
     public class NasaDataModel
     {
-        public Collection? collection { get; set; }
+        public Collection? Collection { get; set; }
     }
 
 
