@@ -24,7 +24,7 @@ namespace NasaApi.Client
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             
             baseUrl = _configuration.GetValue<string>("ApiConfiguration:BaseUrl");
-            if (baseUrl == null)
+            if (string.IsNullOrEmpty(baseUrl))
             {
                 throw new ArgumentNullException("ApiConfiguration:BaseUrl");
             }

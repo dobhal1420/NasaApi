@@ -18,6 +18,8 @@ namespace NasaApiTest
         private ILogger<NasaClient> _mocklogger;
         private Mock<IConfiguration> _mockconfiguration;
         private HttpClient _mockHttpClient;
+        private Mock<IConfigurationSection> _mockconfigurationSection;
+
         [SetUp]
         public void Setup()
         {
@@ -35,20 +37,20 @@ namespace NasaApiTest
 
             _mockHttpClient = new HttpClient(mockHttpMessageHandler.Object);
             _mocklogger = Mock.Of<ILogger<NasaClient>>();
-            var configurationSectionMock = new Mock<IConfigurationSection>();
+            _mockconfigurationSection = new Mock<IConfigurationSection>();
             _mockconfiguration = new Mock<IConfiguration>();
 
-            configurationSectionMock
+            _mockconfigurationSection
                .Setup(x => x.Value)
                .Returns("http://someservice:81");
 
             _mockconfiguration
                .Setup(x => x.GetSection("ApiConfiguration:BaseUrl"))
-               .Returns(configurationSectionMock.Object);
+               .Returns(_mockconfigurationSection.Object);
         }
 
         [Test]
-        public async Task GivenMockHandlerWhenNasaClientIsCalled()
+        public async Task GivenMockHandlerWhenNasaClientIsCalledReturnsSuccess()
         {
             _nasaClient = new NasaClient(_mocklogger,_mockconfiguration.Object, _mockHttpClient);
             Dictionary<string,string?> paramaters = new Dictionary<string,string?>();
@@ -58,5 +60,16 @@ namespace NasaApiTest
             Assert.NotNull(response);
             Assert.True(response?.Count == MockJsonResponse.Get().Collection?.Items?.Count);
         }
+
+        [Test]
+        public void GivenMockHandlerWithNoConfigurationWhenNasaClientIsCalledReturnsFaiure()
+        {
+            _mockconfigurationSection
+               .Setup(x => x.Value)
+               .Returns("");
+
+            Assert.Throws<ArgumentNullException>(() => _nasaClient = new NasaClient(_mocklogger, _mockconfiguration.Object, _mockHttpClient));
+        }
+
     }
 }
