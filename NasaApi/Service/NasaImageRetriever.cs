@@ -8,14 +8,14 @@ namespace NasaApi.Service
     public class NasaImageRetriever : INasaImageRetriever
     {
         private readonly ILogger _logger;
-        private readonly NasaClient _nasaClient;
+        private readonly INasaClient _nasaClient;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="httpClient"></param>
-        public NasaImageRetriever(ILogger<NasaImageRetriever> logger, NasaClient nasaClient)
+        public NasaImageRetriever(ILogger<NasaImageRetriever> logger, INasaClient nasaClient)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _nasaClient = nasaClient ?? throw new ArgumentNullException(nameof(nasaClient));

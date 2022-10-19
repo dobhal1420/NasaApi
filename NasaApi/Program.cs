@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<INasaImageRetriever, NasaImageRetriever>();
-builder.Services.AddHttpClient<NasaClient>();
+builder.Services.AddHttpClient<INasaClient,NasaClient>();
 builder.Services.AddMemoryCache();
 
 

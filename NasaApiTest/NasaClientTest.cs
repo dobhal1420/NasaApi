@@ -14,7 +14,7 @@ namespace NasaApiTest
 {
     public class NasaClientTest
     {
-        private NasaClient? _nasaClient;
+        private INasaClient? _nasaClient;
         private ILogger<NasaClient> _mocklogger;
         private Mock<IConfiguration> _mockconfiguration;
         private HttpClient _mockHttpClient;

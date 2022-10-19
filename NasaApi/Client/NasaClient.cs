@@ -4,7 +4,7 @@ using NasaApi.Service;
 
 namespace NasaApi.Client
 {
-    public class NasaClient
+    public class NasaClient : INasaClient
     {
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
