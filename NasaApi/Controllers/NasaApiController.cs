@@ -41,6 +41,7 @@ namespace NasaApi.Controllers
             {
                 try
                 {
+                    // For the race condition
                     await semaphore.WaitAsync();
                     if (_cache.TryGetValue(parameterCacheKey, out nasaLineItems))
                     {
