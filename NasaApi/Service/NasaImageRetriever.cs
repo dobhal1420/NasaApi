@@ -21,7 +21,7 @@ namespace NasaApi.Service
             _nasaClient = nasaClient ?? throw new ArgumentNullException(nameof(nasaClient));
         }
 
-        public async Task<List<NasaLineItem>?> FetchAllData(NasaRequestParameter parameter)
+        public async Task<List<NasaLineItem>?> FetchData(NasaRequestParameter parameter)
         {
 
             var queryParameters = GetQueryString(parameter);
