@@ -50,7 +50,7 @@ namespace NasaApi.Controllers
                     else
                     {
                         _logger.Log(LogLevel.Information, "Nasa Image not found in cache. Fetching from Internal Api.");
-                        var response = await _imageRetriever.FetchData(parameter);
+                        var response = await _imageRetriever.FetchData(parameter).ConfigureAwait(false);
                         nasaLineItems = response!;
                         var cacheEntryOptions = new MemoryCacheEntryOptions()
                                 .SetSlidingExpiration(TimeSpan.FromSeconds(60))

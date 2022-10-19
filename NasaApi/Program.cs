@@ -1,5 +1,6 @@
 using NasaApi.Client;
 using NasaApi.Service;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<INasaImageRetriever, NasaImageRetriever>();
 builder.Services.AddHttpClient<INasaClient,NasaClient>();
 builder.Services.AddMemoryCache();
+
+// Adding polly retry
+var httpRetryPolicy = Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
+    .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
+
+builder.Services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(httpRetryPolicy);
 
 
 var app = builder.Build();

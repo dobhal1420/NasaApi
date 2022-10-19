@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using NasaApi.Client;
+﻿using NasaApi.Client;
 using NasaApi.Domain;
-using System.Collections.Specialized;
 
 namespace NasaApi.Service
 {
@@ -27,7 +25,7 @@ namespace NasaApi.Service
             var queryParameters = GetQueryString(parameter);
 
             _logger.LogDebug("NasaRetriever querying ", queryParameters);
-            var nasaResponse = await _nasaClient.GetAsync(queryParameters);
+            var nasaResponse = await _nasaClient.GetAsync(queryParameters).ConfigureAwait(false);
 
 
 
