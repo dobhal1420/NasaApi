@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NasaApi", "NasaApi\NasaApi.csproj", "{E2A83E4F-7EAD-460E-9F8F-3C014D4E86EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NasaApiTest", "NasaApiTest\NasaApiTest.csproj", "{5AA657B8-D807-452B-8D84-81630F21FBBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NasaApiTest", "NasaApiTest\NasaApiTest.csproj", "{5AA657B8-D807-452B-8D84-81630F21FBBC}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{423844FF-9C77-46AB-9FE8-9D38A2657A08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5AA657B8-D807-452B-8D84-81630F21FBBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AA657B8-D807-452B-8D84-81630F21FBBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AA657B8-D807-452B-8D84-81630F21FBBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{423844FF-9C77-46AB-9FE8-9D38A2657A08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{423844FF-9C77-46AB-9FE8-9D38A2657A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{423844FF-9C77-46AB-9FE8-9D38A2657A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{423844FF-9C77-46AB-9FE8-9D38A2657A08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  nasaapi:
+    image: ${DOCKER_REGISTRY-}nasaapi
+    build:
+      context: .
+      dockerfile: NasaApi\Dockerfile
