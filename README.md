@@ -22,6 +22,11 @@ Traverse to - NetCore\NasaApiBE\NasaApi\NasaApi
 >> dotnet build
 >> dotnet run
 ```
+or simply spin up the docker
+
+```
+>> docker-compose up
+```
 
 Browse Url
 http:/localhost:8080/swagger/index.html
