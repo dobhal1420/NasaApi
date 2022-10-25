@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using NasaApi.Domain;
+using NasaApi.Policies.RequestService.Policies;
 using NasaApi.Service;
+using Polly;
 
 namespace NasaApi.Client
 {
@@ -10,6 +12,8 @@ namespace NasaApi.Client
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
         private readonly string baseUrl;
+        private readonly ClientPolicy _policy;
+
 
         /// <summary>
         /// Nasa client.
@@ -17,12 +21,16 @@ namespace NasaApi.Client
         /// <param name="logger"></param>
         /// <param name="configuration"></param>
         /// <param name="httpClient"></param>
-        public NasaClient(ILogger<NasaClient> logger, IConfiguration configuration, HttpClient httpClient)
+        /// <param name="policy"> </param>
+        public NasaClient(ILogger<NasaClient> logger,
+                          IConfiguration configuration,
+                          HttpClient httpClient,
+                          ClientPolicy policy)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            
+            _policy = policy ?? throw new ArgumentNullException(nameof(policy));
             baseUrl = _configuration.GetValue<string>("ApiConfiguration:BaseUrl");
             if (string.IsNullOrEmpty(baseUrl))
             {
@@ -35,11 +43,19 @@ namespace NasaApi.Client
         {
             var queryString = QueryHelpers.AddQueryString(baseUrl, queryParameters);
 
-            var nasaResponse = await _httpClient.GetFromJsonAsync<NasaDataModel>(queryString);
+            var httpResponse = await _policy.ExponentialHttpRetry.ExecuteAsync(() => _httpClient.GetAsync(queryString));
 
-            _logger.LogDebug("Nasa Client Response", nasaResponse);
 
-            return nasaResponse?.Collection?.Items;
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                var response = await httpResponse.Content.ReadFromJsonAsync<NasaDataModel>();
+                var nasaResponse = response?.Collection?.Items;
+                _logger.LogDebug("Nasa Client Response", nasaResponse);
+                return nasaResponse;
+            }
+
+            return null;
+            
         }
     }
 }

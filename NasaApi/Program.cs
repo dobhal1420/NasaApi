@@ -1,4 +1,5 @@
 using NasaApi.Client;
+using NasaApi.Policies.RequestService.Policies;
 using NasaApi.Service;
 using Polly;
 
@@ -10,15 +11,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// Registering polly retry Policy
+builder.Services.AddSingleton(new ClientPolicy());
+
 builder.Services.AddScoped<INasaImageRetriever, NasaImageRetriever>();
 builder.Services.AddHttpClient<INasaClient,NasaClient>();
 builder.Services.AddMemoryCache();
 
-// Adding polly retry
-var httpRetryPolicy = Policy.HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
-    .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
 
-builder.Services.AddSingleton<IAsyncPolicy<HttpResponseMessage>>(httpRetryPolicy);
 
 
 var app = builder.Build();

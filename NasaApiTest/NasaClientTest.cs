@@ -3,12 +3,11 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using NasaApi.Client;
-using NasaApi.Service;
+using NasaApi.Policies.RequestService.Policies;
 using NasaApiTest.MockObjects;
 using Newtonsoft.Json;
 using NUnit.Framework.Internal;
 using System.Net;
-using System.Text;
 
 namespace NasaApiTest
 {
@@ -19,6 +18,7 @@ namespace NasaApiTest
         private Mock<IConfiguration> _mockconfiguration;
         private HttpClient _mockHttpClient;
         private Mock<IConfigurationSection> _mockconfigurationSection;
+        private ClientPolicy _clientPolicy;
 
         [SetUp]
         public void Setup()
@@ -47,13 +47,15 @@ namespace NasaApiTest
             _mockconfiguration
                .Setup(x => x.GetSection("ApiConfiguration:BaseUrl"))
                .Returns(_mockconfigurationSection.Object);
+
+            _clientPolicy = new ClientPolicy();
         }
 
         [Test]
         public async Task GivenMockHandlerWhenNasaClientIsCalledReturnsSuccess()
         {
-            _nasaClient = new NasaClient(_mocklogger,_mockconfiguration.Object, _mockHttpClient);
-            Dictionary<string,string?> paramaters = new Dictionary<string,string?>();
+            _nasaClient = new NasaClient(_mocklogger, _mockconfiguration.Object, _mockHttpClient, _clientPolicy);
+            Dictionary<string, string?> paramaters = new Dictionary<string, string?>();
 
             var response = await _nasaClient.GetAsync(paramaters);
 
@@ -68,7 +70,7 @@ namespace NasaApiTest
                .Setup(x => x.Value)
                .Returns("");
 
-            Assert.Throws<ArgumentNullException>(() => _nasaClient = new NasaClient(_mocklogger, _mockconfiguration.Object, _mockHttpClient));
+            Assert.Throws<ArgumentNullException>(() => _nasaClient = new NasaClient(_mocklogger, _mockconfiguration.Object, _mockHttpClient, _clientPolicy));
         }
 
     }
